@@ -61,7 +61,7 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
         System.out.println("========Acechador=========");
         System.out.println("Fila: " + fila);
         System.out.println("Columna: " + columna);
-        System.out.println("Daño: " + daño);
+        System.out.println("Dano: " + daño);
         System.out.println("Velocidad: " + velocidad);
         if (activo){
             System.out.println("Estado: Activado");

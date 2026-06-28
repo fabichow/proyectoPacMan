@@ -50,8 +50,11 @@ public class Jugador {
     public void mostrarEstado() {
         System.out.println("========Jugador=========");
         System.out.println("Nombre: " + nombre);
+        System.out.println("Fila: " + fila);
+        System.out.println("Columna: " + columna);
         System.out.println("Salud: " + salud);
         System.out.println("Puntaje: " + puntaje);
+        
         if (poderActivo){
             System.out.println("Poder: Activado");
         }else{
