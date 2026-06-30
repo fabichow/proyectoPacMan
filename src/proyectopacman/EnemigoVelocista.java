@@ -2,12 +2,15 @@ package proyectopacman;
 
 public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que realiza el jugador. Ronald Gutierrez     
 
+    //Atributos
     int fila;
     int columna;
     int daño;
     boolean activo;
 
     public EnemigoVelocista() {
+
+        //Constructor
         fila = 6;
         columna = 6;
         daño = 1;
