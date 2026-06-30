@@ -35,9 +35,9 @@ public class Jugador {
         } else if (direccion.equals("izquierda")) {
             columna --;}
     }
-    // public void recogerPunto(Punto p) {
-
-    // }
+    public void recogerPunto(Punto p) {
+        puntaje += p.obtenerValor();
+    }
     public void recibirDaño(int cantidad) {
         salud -= cantidad;
     }
