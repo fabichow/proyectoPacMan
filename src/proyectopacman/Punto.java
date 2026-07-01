@@ -2,11 +2,13 @@ package proyectopacman;
 
 public class Punto {
 
+    //Atributos
     int fila;
     int columna;
     int valor;
     boolean recolectado;
 
+    //Constructor
     public Punto(int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
@@ -14,6 +16,7 @@ public class Punto {
         this.recolectado = false;
     }
 
+    //Metodo ._.
     public int obtenerValor() {
         if (!recolectado) {
             recolectado = true;
