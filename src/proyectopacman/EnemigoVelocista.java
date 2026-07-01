@@ -21,21 +21,18 @@ public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que 
 
         // se mueve 2 veces por turno (su habilidad) ._.
          for (int i = 0; i < 2; i++) {
-
             if (fila < j.fila) {
                 fila++;
             }
             if (fila > j.fila) {
                 fila--;
             }
-        
             if (columna < j.columna) {
                 columna++;
             }
             if (columna > j.columna) {
                 columna--;
             }
-        
             verificarColision(j);
         }
     public void verificarColision(Jugador j) {
