@@ -19,25 +19,25 @@ public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que 
     //Metodos
     public void mover(Jugador j) {
 
-        // se mueve 2 veces por turno (su habilidad)
-        for (int i = 0; i < 2; i++) {
+        // se mueve 2 veces por turno (su habilidad) ._.
+         for (int i = 0; i < 2; i++) {
 
             if (fila < j.fila) {
                 fila++;
-            } else if (fila > j.fila) {
+            }
+            if (fila > j.fila) {
                 fila--;
             }
-
+        
             if (columna < j.columna) {
                 columna++;
-            } else if (columna > j.columna) {
+            }
+            if (columna > j.columna) {
                 columna--;
             }
-
+        
             verificarColision(j);
         }
-    }
-
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna) {
             j.recibirDaño(daño);
