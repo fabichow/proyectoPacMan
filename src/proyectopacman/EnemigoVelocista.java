@@ -15,8 +15,8 @@ public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que 
         columna = 6;
         daño = 1;
         activo = true;
+        
     }
-
     public void mover(Jugador j) {
 
         // se mueve 2 veces por turno (su habilidad)
