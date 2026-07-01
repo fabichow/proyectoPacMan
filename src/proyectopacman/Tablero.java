@@ -2,6 +2,7 @@ package proyectopacman;
 
 public class Tablero {
 
+    //Atributos
     int filas;
     int columnas;
     char[][] matriz;
