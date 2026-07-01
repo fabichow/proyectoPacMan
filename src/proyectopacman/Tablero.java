@@ -7,13 +7,15 @@ public class Tablero {
     int columnas;
     char[][] matriz;
 
+     //Constructor
     public Tablero(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
         matriz = new char[filas][columnas];
         inicializar();
     }
-
+    
+    // Metodos
     public void inicializar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
