@@ -13,8 +13,8 @@ public class EnemigoTanque { //Enemigo que se mueve lento pero hace 3 de daño. 
     //Constructor
     public EnemigoTanque(){
         tipo = "Tanque";
-        fila = 4;
-        columna = 4;
+        fila = 8;
+        columna = 8;
         daño = 3;
         activo = true;
         velocidad = 1;

@@ -5,21 +5,34 @@ public class Juego {
     // Atributos
     Jugador jugador;
     EnemigoAcechador acechador;
-    // Tablero tablero;
-    // Enemigo[] enemigos;
+    EnemigoVelocista velocista;
+    EnemigoTanque tanque;
+    Tablero tablero;
+    Punto[] puntos;
+    ControlEnemigos controlEnemigos;
     boolean juegoTerminado;
 
     //Contructor
     public Juego(){
-        jugador = new Jugador();
-        acechador = new EnemigoAcechador();
-        juegoTerminado = false;
+    jugador = new Jugador();
+    acechador = new EnemigoAcechador();
+    velocista = new EnemigoVelocista();
+    tanque = new EnemigoTanque();
+    tablero = new Tablero(10,10);
+    puntos = new Punto[3];
+    puntos[0] = new Punto(1,1);
+    puntos[1] = new Punto(4,4);
+    puntos[2] = new Punto(7,7);
+    controlEnemigos = new ControlEnemigos(jugador, acechador, velocista, tanque);
+    juegoTerminado = false;
     }
     
     //Metodos 
     public void iniciarJuego() {
         System.out.println("===== PAC-MAN =====");
         System.out.println("Juego iniciado");
+        actualizarTablero();
+        tablero.mostrar();
         mostrarEstado();
     }
     public void ejecutarTurno() {
@@ -42,10 +55,12 @@ public class Juego {
         } else {
             System.out.println("Movimiento invalido.");
         }
-        acechador.mover(jugador);
-        acechador.verificarColision(jugador);
+        controlEnemigos.moverEnemigos();
+        controlEnemigos.verificarColisiones();
+        actualizarTablero();
         verificarFinJuego();
         mostrarEstado();
+        tablero.mostrar();
     }
     public void verificarFinJuego() {
         if (!jugador.estaVivo()){
@@ -54,13 +69,13 @@ public class Juego {
     }
     public void mostrarEstado() {
         jugador.mostrarEstado();
-        acechador.mostrarEstado();
+        controlEnemigos.mostrarEstadoEnemigos();
     }
-    public void generarEnemigos(int cantidad) {
-
+    public void generarEnemigos(int cantidad){
+    System.out.println(cantidad + " enemigos generados.");
     }
-    public void actualizarTablero() {
-
+    public void actualizarTablero(){
+        tablero.actualizar(jugador, acechador, velocista, puntos);
     }
 
 }
