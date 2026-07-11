@@ -41,6 +41,9 @@ public class Jugador {
     public void recibirDaño(int cantidad) {
         salud -= cantidad;
     }
+    public void recuperarSalud(int cantidad) {
+        salud += cantidad;
+    }
     // public void usarPoder(Poder p) {
 
     // }
