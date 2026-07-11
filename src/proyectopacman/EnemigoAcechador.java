@@ -8,11 +8,21 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
     int daño;
     boolean activo;
     int velocidad;
+    String tipo;
     
     //Constructor
     public EnemigoAcechador(){
+        tipo = "Acechador";
         fila = 3;
         columna = 3;
+        daño = 1;
+        activo = true;
+        velocidad = 1;
+    }
+    public EnemigoAcechador(int fila, int columna){
+        tipo = "Acechador";
+        this.fila = fila;
+        this.columna = columna;
         daño = 1;
         activo = true;
         velocidad = 1;
@@ -35,6 +45,7 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
     }
     public void atacar(Jugador j) {
         j.recibirDaño(daño);
+        System.out.println("El acechador te atacó!");
     }
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna){
@@ -57,8 +68,12 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
             velocidad = 3;
         }
     }
+    public boolean estaActivo(){
+        return activo;
+    }
     public void mostrarEstado() {
         System.out.println("========Acechador=========");
+        System.out.println("Tipo: " + tipo);
         System.out.println("Fila: " + fila);
         System.out.println("Columna: " + columna);
         System.out.println("Dano: " + daño);
