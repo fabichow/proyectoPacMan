@@ -51,8 +51,26 @@ public class Tablero {
         }
 
         // puntos
+       public void actualizar(Jugador j, EnemigoAcechador e1, EnemigoVelocista e2, EnemigoTanque e3, Punto[] puntos) {
+    inicializar();
+
+    // muros
+    for (int i = 0; i < muros.length; i++) {
+        matriz[muros[i].getFila()][muros[i].getColumna()] = '#';
+    }
+
+    // puntos
+    public void actualizar(Jugador j, EnemigoAcechador e1, EnemigoVelocista e2, EnemigoTanque e3, Punto[] puntos) {
+        inicializar();
+    
+        // muros
+        for (int i = 0; i < muros.length; i++) {
+            matriz[muros[i].getFila()][muros[i].getColumna()] = '#';
+        }
+    
+        // puntos
         for (int i = 0; i < puntos.length; i++) {
-            if (!puntos[i].fueRecolectado() && dentroDeLimites(puntos[i].fila, puntos[i].columna)) { // <-- corregido paréntesis, y uso dentroDeLimites en vez de esMovimientoValido
+            if (!puntos[i].fueRecolectado() && dentroDeLimites(puntos[i].fila, puntos[i].columna)) {
                 matriz[puntos[i].fila][puntos[i].columna] = '*';
             }
         }
@@ -67,6 +85,10 @@ public class Tablero {
         // Enemigo Velocista
         if (dentroDeLimites(e2.fila, e2.columna)) {
             matriz[e2.fila][e2.columna] = 'V';
+        }
+        // Enemigo Tanque                          
+        if (dentroDeLimites(e3.fila, e3.columna)) {
+            matriz[e3.fila][e3.columna] = 'T';
         }
     }
 
