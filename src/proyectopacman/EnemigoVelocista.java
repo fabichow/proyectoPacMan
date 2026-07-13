@@ -6,12 +6,14 @@ public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que 
     int columna;
     int daño;
     boolean activo;
+    String tipo;
 
     public EnemigoVelocista() {
         fila = 6;
         columna = 6;
         daño = 1;
         activo = true;
+        tipo = "velocista";
     }
 
     public void mover(Jugador j) {
@@ -23,7 +25,10 @@ public class EnemigoVelocista { //Enemigo que avanza dos casillas por turno que 
             verificarColision(j);
         }
     } 
-
+    public boolean estaActivo(){
+        return activo;
+    }
+    
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna) {
             j.recibirDaño(daño);
