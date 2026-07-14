@@ -1,5 +1,6 @@
 package proyectopacman;
 import java.util.Scanner;
+import java.util.Random;
 public class Juego {
     
     // Atributos
@@ -29,16 +30,12 @@ public class Juego {
         columnas = 10;}
     muros = generarMuros(filas,columnas);
     tablero = new Tablero(filas,columnas,muros);
-    gererarPuntos((filas*columnas)/8, filas, columnas);
+    generarPuntos((filas*columnas)/8, filas, columnas);
     jugador = new Jugador();
     acechador = new EnemigoAcechador();
     velocista = new EnemigoVelocista();
     tanque = new EnemigoTanque();
     tablero = new Tablero(filas,columnas,muros);
-    puntos = new Punto[3];
-    puntos[0] = new Punto(1,1);
-    puntos[1] = new Punto(4,4);
-    puntos[2] = new Punto(7,7);
     controlEnemigos = new ControlEnemigos(jugador, acechador, velocista, tanque);
     juegoTerminado = false;
     }
@@ -87,13 +84,13 @@ public class Juego {
     public void generarPuntos(int cantidad, int filas, int columnas){
         Random random = new Random();
         puntos = new Punto[cantidad];
-        for(int = 0; i < cantidad; i++){
+        for(int i = 0; i < cantidad; i++){
             int fila = random.nextInt(filas);
             int columna = random.nextInt(columnas);
             puntos[i] = new Punto(fila,columna);
         }
     }
-    public verificarPuntos(){
+    public void verificarPuntos(){
         for(int i = 0;  i < puntos.length; i++){
             if(jugador.fila == puntos[i].fila && jugador.columna == puntos[i].columna && !puntos[i].fueRecolectado()){
                 jugador.recogerPunto(puntos[i]);
@@ -109,7 +106,7 @@ public class Juego {
     System.out.println(cantidad + " enemigos generados.");
     }
     public void actualizarTablero(){
-        tablero.actualizar(jugador, acechador, velocista, puntos);
+        tablero.actualizar(jugador, acechador, velocista, tanque, puntos);
     }
 
 }

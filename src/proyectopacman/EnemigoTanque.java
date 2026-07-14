@@ -29,7 +29,6 @@ public class EnemigoTanque { //Enemigo que se mueve lento pero hace 3 de daño. 
     }
     //Metodos
     public void mover(Jugador j) {
-        actualizarVelocidad(j);
         for (int i = 0; i < velocidad; i++) {
             if (fila < j.fila) {
                 fila++;
@@ -50,22 +49,6 @@ public class EnemigoTanque { //Enemigo que se mueve lento pero hace 3 de daño. 
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna){
             atacar(j);
-        }
-    }
-     public int calcularDistancia(Jugador j) {
-        int diferenciaFilas = Math.abs(fila - j.fila);
-        int diferenciaColumnas = Math.abs(columna - j.columna);
-        int distancia = diferenciaFilas + diferenciaColumnas;
-        return distancia;
-    }
-    public void actualizarVelocidad(Jugador j) {
-        int distancia = calcularDistancia(j);
-        if (distancia <= 4) {
-            velocidad = 1;
-        } else if (distancia <= 8) {
-            velocidad = 2;
-        } else {
-            velocidad = 3;
         }
     }
     public boolean estaActivo(){
