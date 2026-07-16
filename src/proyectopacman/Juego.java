@@ -178,6 +178,24 @@ public Muro[] generarMuros(int filas, int columnas){
         }
     }
     
+    public Posicion obtenerPosicionLibre(int filas, int columnas){
+    Random random = new Random();
+    while(true){
+        int fila = random.nextInt(filas);
+        int columna = random.nextInt(columnas);
+        boolean ocupada = false;
+        for(int i = 0; i < muros.length; i++){
+            if(muros[i].getFila() == fila && muros[i].getColumna() == columna){
+                ocupada = true;
+            }
+        }
+        if(!ocupada){
+            return new Posicion(fila,columna);
+        }
+    }
+
+}
+    
     public void mostrarEstado() {
         jugador.mostrarEstado();
         controlEnemigos.mostrarEstadoEnemigos();
