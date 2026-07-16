@@ -32,9 +32,21 @@ public class Juego {
     tablero = new Tablero(filas,columnas,muros);
     generarPuntos((filas*columnas)/8, filas, columnas);
     jugador = new Jugador();
+    Posicion posJugador = obtenerPosicionLibre(filas, columnas);
+    jugador.fila = posJugador.fila;
+    jugador.columna = posJugador.columna;
     acechador = new EnemigoAcechador();
+    Posicion posAcechador = obtenerPosicionLibre(filas, columnas);
+    acechador.fila = posAcechador.fila;
+    acechador.columna = posAcechador.columna;
     velocista = new EnemigoVelocista();
+    Posicion posVelocista = obtenerPosicionLibre(filas, columnas);
+    velocista.fila = posVelocista.fila;
+    velocista.columna = posVelocista.columna;
     tanque = new EnemigoTanque();
+    Posicion posTanque = obtenerPosicionLibre(filas, columnas);
+    tanque.fila = posTanque.fila;
+    tanque.columna = posTanque.columna;
     tablero = new Tablero(filas,columnas,muros);
     controlEnemigos = new ControlEnemigos(jugador, acechador, velocista, tanque);
     juegoTerminado = false;
@@ -58,19 +70,19 @@ public class Juego {
         System.out.print("Ingrese movimiento: ");
         String tecla = lector.nextLine();
         if (tecla.equals("w")) {
-            jugador.mover("arriba");
+            jugador.mover("arriba", tablero);
         } else if (tecla.equals("s")) {
-            jugador.mover("abajo");
+            jugador.mover("abajo",tablero);
         } else if (tecla.equals("a")) {
-            jugador.mover("izquierda");
+            jugador.mover("izquierda", tablero);
         } else if (tecla.equals("d")) {
-            jugador.mover("derecha");
+            jugador.mover("derecha", tablero);
         } else {
             System.out.println("Movimiento invalido.");
         }
         verificarPuntos();
-        controlEnemigos.moverEnemigos();
-        controlEnemigos.verificarColisiones();
+        //controlEnemigos.moverEnemigos();
+        //controlEnemigos.verificarColisiones();
         actualizarTablero();
         verificarFinJuego();
         mostrarEstado();
@@ -81,7 +93,7 @@ public class Juego {
             juegoTerminado = true;
         }
     }
-public Muro[] generarMuros(int filas, int columnas){
+    public Muro[] generarMuros(int filas, int columnas){
 
     Random random = new Random();
 
@@ -96,7 +108,6 @@ public Muro[] generarMuros(int filas, int columnas){
 
     int indice = 0;
 
-    // Borde superior e inferior
     for(int j = 0; j < columnas; j++){
 
         muros[indice++] = new Muro(0, j);
@@ -106,7 +117,6 @@ public Muro[] generarMuros(int filas, int columnas){
 
     }
 
-    // Borde izquierdo y derecho
     for(int i = 1; i < filas - 1; i++){
 
         muros[indice++] = new Muro(i, 0);
@@ -116,7 +126,6 @@ public Muro[] generarMuros(int filas, int columnas){
 
     }
 
-    // Muros internos aleatorios
     while(indice < muros.length){
 
         int fila =
@@ -125,7 +134,6 @@ public Muro[] generarMuros(int filas, int columnas){
         int columna =
                 random.nextInt(columnas - 2) + 1;
 
-        // Zona segura del jugador
         if((fila == 1 && columna == 1) ||
            (fila == 1 && columna == 2) ||
            (fila == 2 && columna == 1) ||
