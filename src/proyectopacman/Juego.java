@@ -12,11 +12,12 @@ public class Juego {
     Muro[] muros;
     Punto[] puntos;
     ControlEnemigos controlEnemigos;
+    Scanner lector;
     boolean juegoTerminado;
 
     //Contructor
     public Juego(){
-    Scanner lector = new Scanner(System.in);
+    lector = new Scanner(System.in);
     System.out.println("========================================");
     System.out.println("      CONFIGURACION DEL TABLERO");
     System.out.println("========================================");
@@ -24,6 +25,7 @@ public class Juego {
     int filas = lector.nextInt();
     System.out.print("Ingrese cantidad de columnas: ");
     int columnas = lector.nextInt();
+    lector.nextLine(); 
     if (filas < 10 || columnas < 10) {
         System.out.println("El tamaño minimo es 10x10.");
         filas = 10;
@@ -60,7 +62,6 @@ public class Juego {
         mostrarInterfaz();
     }
     public void ejecutarTurno() {
-        Scanner lector = new Scanner(System.in);
         String tecla = lector.nextLine();
         if (tecla.equals("w")) {
             jugador.mover("arriba", tablero);
