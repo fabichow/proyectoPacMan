@@ -57,17 +57,10 @@ public class Juego {
         System.out.println("===== PAC-MAN =====");
         System.out.println("Juego iniciado");
         actualizarTablero();
-        tablero.mostrar();
-        mostrarEstado();
+        mostrarInterfaz();
     }
     public void ejecutarTurno() {
         Scanner lector = new Scanner(System.in);
-        System.out.println("Movimiento:");
-        System.out.println("W = Arriba");
-        System.out.println("A = Izquierda");
-        System.out.println("S = Abajo");
-        System.out.println("D = Derecha");
-        System.out.print("Ingrese movimiento: ");
         String tecla = lector.nextLine();
         if (tecla.equals("w")) {
             jugador.mover("arriba", tablero);
@@ -81,101 +74,91 @@ public class Juego {
             System.out.println("Movimiento invalido.");
         }
         verificarPuntos();
+        verificarVictoria();
+        if(juegoTerminado){
+            return;
+        }
         //controlEnemigos.moverEnemigos();
         //controlEnemigos.verificarColisiones();
         actualizarTablero();
         verificarFinJuego();
-        mostrarEstado();
+        mostrarInterfaz();
+    }
+    public void mostrarInterfaz(){
         tablero.mostrar();
+        jugador.mostrarEstado();
+        System.out.println();
+        System.out.println("Controles:");
+        System.out.println("W = Arriba");
+        System.out.println("A = Izquierda");
+        System.out.println("S = Abajo");
+        System.out.println("D = Derecha");
+        System.out.println("Ingrese movimiento: ");
     }
     public void verificarFinJuego() {
         if (!jugador.estaVivo()){
             juegoTerminado = true;
         }
     }
-    public Muro[] generarMuros(int filas, int columnas){
-
-    Random random = new Random();
-
-    int cantidadMurosInternos = (filas * columnas) / 10;
-
-    int murosBorde =
-            (filas * 2) +
-            ((columnas - 2) * 2);
-
-    Muro[] muros =
-            new Muro[murosBorde + cantidadMurosInternos];
-
-    int indice = 0;
-
-    for(int j = 0; j < columnas; j++){
-
-        muros[indice++] = new Muro(0, j);
-
-        muros[indice++] =
-                new Muro(filas - 1, j);
-
-    }
-
-    for(int i = 1; i < filas - 1; i++){
-
-        muros[indice++] = new Muro(i, 0);
-
-        muros[indice++] =
-                new Muro(i, columnas - 1);
-
-    }
-
-    while(indice < muros.length){
-
-        int fila =
-                random.nextInt(filas - 2) + 1;
-
-        int columna =
-                random.nextInt(columnas - 2) + 1;
-
-        if((fila == 1 && columna == 1) ||
-           (fila == 1 && columna == 2) ||
-           (fila == 2 && columna == 1) ||
-           (fila == 2 && columna == 2)){
-
-            continue;
-
-        }
-
-        boolean repetido = false;
-
-        for(int i = 0; i < indice; i++){
-
-            if(muros[i].getFila() == fila &&
-               muros[i].getColumna() == columna){
-
-                repetido = true;
-                break;
-
+    public void verificarVictoria(){
+        for(int i = 0; i < puntos.length; i++){
+            if(!puntos[i].fueRecolectado()){
+                return;
             }
-
         }
-
-        if(!repetido){
-
+        System.out.println("========================================");
+        System.out.println("                GANASTE");
+        System.out.println("========================================");
+        juegoTerminado = true;
+    }
+    public Muro[] generarMuros(int filas, int columnas){
+        Random random = new Random();
+        int cantidadMurosInternos = (filas * columnas) / 10;
+        int murosBorde =
+                (filas * 2) +
+                ((columnas - 2) * 2);
+        Muro[] muros =
+                new Muro[murosBorde + cantidadMurosInternos];
+        int indice = 0;
+        for(int j = 0; j < columnas; j++){
+            muros[indice++] = new Muro(0, j);
             muros[indice++] =
-                    new Muro(fila, columna);
-
+                    new Muro(filas - 1, j);
         }
+        for(int i = 1; i < filas - 1; i++){
+            muros[indice++] = new Muro(i, 0);
+            muros[indice++] =
+                    new Muro(i, columnas - 1);
+        }
+        while(indice < muros.length){
+            int fila =
+                    random.nextInt(filas - 2) + 1;
+            int columna =
+                    random.nextInt(columnas - 2) + 1;
+            if((fila == 1 && columna == 1)||(fila == 1 && columna == 2)||(fila == 2 && columna == 1) ||(fila == 2 && columna == 2)){
+                continue;
+            }
+            boolean repetido = false;
+            for(int i = 0; i < indice; i++){
+                if(muros[i].getFila() == fila &&
+                   muros[i].getColumna() == columna){
+                    repetido = true;
+                }
+            }
+            if(!repetido){
+                muros[indice++] =
+                        new Muro(fila, columna);
+            }
+        }
+        return muros;
 
     }
-
-    return muros;
-
-}
     public void generarPuntos(int cantidad, int filas, int columnas){
         Random random = new Random();
         puntos = new Punto[cantidad];
         for(int i = 0; i < cantidad; i++){
-            int fila = random.nextInt(filas);
-            int columna = random.nextInt(columnas);
-            puntos[i] = new Punto(fila,columna);
+            Posicion p = obtenerPosicionLibre(filas, columnas);
+            puntos[i] = new Punto(p.fila,p.columna);
         }
     }
     public void verificarPuntos(){
@@ -186,27 +169,51 @@ public class Juego {
         }
     }
     
-    public Posicion obtenerPosicionLibre(int filas, int columnas){
-    Random random = new Random();
-    while(true){
-        int fila = random.nextInt(filas);
-        int columna = random.nextInt(columnas);
-        boolean ocupada = false;
+    public boolean posicionOcupada(int fila,int columna){
         for(int i = 0; i < muros.length; i++){
             if(muros[i].getFila() == fila && muros[i].getColumna() == columna){
-                ocupada = true;
+                return true;
             }
         }
-        if(!ocupada){
-            return new Posicion(fila,columna);
+        if(jugador != null){
+            if(jugador.fila == fila &&
+               jugador.columna == columna){
+                return true;
+            }
         }
+        if(acechador != null){
+            if(acechador.fila == fila && acechador.columna == columna){
+                return true;
+            }
+        }
+        if(velocista != null){
+            if(velocista.fila == fila && velocista.columna == columna){
+                return true;
+            }
+        }
+        if(tanque != null){
+            if(tanque.fila == fila && tanque.columna == columna){
+                return true;
+            }
+        }
+        return false;
     }
+    
+    public Posicion obtenerPosicionLibre(int filas, int columnas){
+        Random random = new Random();
+        while(true){
+            int fila = random.nextInt(filas);
+            int columna = random.nextInt(columnas);
+            if(!posicionOcupada(fila,columna)){
+                return new Posicion(fila,columna);
+            }
+        }
 
-}
+    }
     
     public void mostrarEstado() {
         jugador.mostrarEstado();
-        controlEnemigos.mostrarEstadoEnemigos();
+        controlEnemigos.mostrarEstadoEnemigos(); //Comentar para apagar enemigos
     }
     public void generarEnemigos(int cantidad){
     System.out.println(cantidad + " enemigos generados.");
