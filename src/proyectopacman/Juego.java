@@ -32,9 +32,9 @@ public class Juego {
         columnas = 10;}
     muros = generarMuros(filas,columnas);
     tablero = new Tablero(filas,columnas,muros);
-    generarPuntos((filas*columnas)/8, filas, columnas);
     jugador = new Jugador();
     Posicion posJugador = obtenerPosicionLibre(filas, columnas);
+    generarPuntos((filas*columnas)/8, filas, columnas);
     jugador.fila = posJugador.fila;
     jugador.columna = posJugador.columna;
     acechador = new EnemigoAcechador();
@@ -195,6 +195,16 @@ public class Juego {
         if(tanque != null){
             if(tanque.fila == fila && tanque.columna == columna){
                 return true;
+            }
+        }
+        if (puntos != null) {
+            for (int i = 0; i < puntos.length; i++) {
+                if (puntos[i] != null) {
+                    if (puntos[i].fila == fila &&
+                        puntos[i].columna == columna) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
