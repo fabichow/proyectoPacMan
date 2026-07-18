@@ -40,12 +40,11 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
             } else if (columna > j.columna) {
                 columna--;
             }
-            verificarColision(j);
         }
     }
     public void atacar(Jugador j) {
         j.recibirDaño(daño);
-        System.out.println("El acechador te atacó!");
+        System.out.println("El acechador te alcanzo!");
     }
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna){

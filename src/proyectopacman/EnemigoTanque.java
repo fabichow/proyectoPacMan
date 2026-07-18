@@ -39,12 +39,11 @@ public class EnemigoTanque { //Enemigo que se mueve lento pero hace 3 de daño. 
             } else if (columna > j.columna) {
                 columna--;
             }
-            verificarColision(j);
         }
     }
     public void atacar(Jugador j) {
         j.recibirDaño(daño);
-        System.out.println("El tanque te atacó!");
+        System.out.println("El tanque te alcanzo!");
     }
     public void verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna){

@@ -8,10 +8,11 @@ public class Jugador {
     int fila;
 
     int columna;
-    int salud;
+    int salud;    
     int puntaje;
     int velocidad;
     boolean poderActivo;
+    boolean fueGolpeado = false;
 
     //Constructor
     public Jugador(){
@@ -25,21 +26,29 @@ public class Jugador {
         
     }
     // Metodos
-    public void mover(String direccion) {
+    public void mover(String direccion, Tablero tablero) {
+        int nuevaFila = fila;
+        int nuevaColumna = columna;
         if (direccion.equals("arriba")) {
-            fila --;
+            nuevaFila --;
         } else if (direccion.equals("abajo")) {
-            fila ++;
+            nuevaFila ++;
         } else if (direccion.equals("derecha")) {
-            columna ++;
+            nuevaColumna ++;
         } else if (direccion.equals("izquierda")) {
-            columna --;}
+            nuevaColumna --;
+        }
+        if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+        fila = nuevaFila;
+        columna = nuevaColumna;
+        }
     }
     public void recogerPunto(Punto p) {
         puntaje += p.obtenerValor();
     }
     public void recibirDaño(int cantidad) {
         salud -= cantidad;
+        fueGolpeado = true;
     }
     public void recuperarSalud(int cantidad) {
         salud += cantidad;
