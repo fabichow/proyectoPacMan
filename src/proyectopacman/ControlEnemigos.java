@@ -8,7 +8,6 @@ public class ControlEnemigos{
     EnemigoAcechador acechador;
     EnemigoVelocista velocista;
     EnemigoTanque tanque;
-    //tercer enemigo;
 
     //Constructor
     public ControlEnemigos(Jugador jugador, EnemigoAcechador acechador, EnemigoVelocista velocista, EnemigoTanque tanque){
@@ -25,8 +24,17 @@ public class ControlEnemigos{
     }
     
     public void verificarColisiones(){
+    if(!jugador.estaVivo()){
+        return;
+    }
     acechador.verificarColision(jugador);
+    if(!jugador.estaVivo()){
+        return;
+    }
     velocista.verificarColision(jugador);
+    if(!jugador.estaVivo()){
+        return;
+    }
     tanque.verificarColision(jugador);
     }
     public void eliminarEnemigosInactivos(){

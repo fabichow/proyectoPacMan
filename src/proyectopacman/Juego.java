@@ -79,8 +79,14 @@ public class Juego {
         if(juegoTerminado){
             return;
         }
-        //controlEnemigos.moverEnemigos();
-        //controlEnemigos.verificarColisiones();
+        controlEnemigos.moverEnemigos();
+        controlEnemigos.verificarColisiones();
+        if(jugador.fueGolpeado && jugador.estaVivo()){
+            Posicion p = obtenerPosicionSegura(tablero.filas, tablero.columnas);
+            jugador.fila = p.fila;
+            jugador.columna = p.columna;
+            jugador.fueGolpeado = false;
+        }
         actualizarTablero();
         verificarFinJuego();
         mostrarInterfaz();
@@ -219,9 +225,35 @@ public class Juego {
                 return new Posicion(fila,columna);
             }
         }
-
     }
     
+    public boolean posicionSegura(int fila, int columna){
+        if(posicionOcupada(fila, columna)){
+            return false;
+        }
+        int distanciaMinima = 3;
+        if(Math.abs(fila - acechador.fila) + Math.abs(columna - acechador.columna) < distanciaMinima)
+            return false;
+        if(Math.abs(fila - velocista.fila) + Math.abs(columna - velocista.columna) < distanciaMinima)
+            return false;
+        if(Math.abs(fila - tanque.fila) + Math.abs(columna - tanque.columna) < distanciaMinima)
+            return false;
+        return true;
+    }
+    
+    public Posicion obtenerPosicionSegura(int filas, int columnas){
+        Random random = new Random();
+        int intentos = 0;
+        while(intentos < 100){
+            int fila = random.nextInt(filas);
+            int columna = random.nextInt(columnas);
+            if(posicionSegura(fila, columna)){
+                return new Posicion(fila, columna);
+            }
+            intentos++;
+        }
+        return obtenerPosicionLibre(filas, columnas);
+    }
     public void mostrarEstado() {
         jugador.mostrarEstado();
         controlEnemigos.mostrarEstadoEnemigos(); //Comentar para apagar enemigos

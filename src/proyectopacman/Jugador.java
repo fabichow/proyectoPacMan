@@ -12,6 +12,7 @@ public class Jugador {
     int puntaje;
     int velocidad;
     boolean poderActivo;
+    boolean fueGolpeado = false;
 
     //Constructor
     public Jugador(){
@@ -47,6 +48,7 @@ public class Jugador {
     }
     public void recibirDaño(int cantidad) {
         salud -= cantidad;
+        fueGolpeado = true;
     }
     public void recuperarSalud(int cantidad) {
         salud += cantidad;
