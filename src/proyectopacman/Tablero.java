@@ -92,7 +92,10 @@ public class Tablero {
             EnemigoAcechador e1,
             EnemigoVelocista e2,
             EnemigoTanque e3,
-            Punto[] puntos) {
+            Punto[] puntos,
+            Posicion posCuracion,
+            Posicion posVelocidad,
+            Posicion posCongelar) {
 
         inicializar();
 
@@ -106,7 +109,18 @@ public class Tablero {
                 matriz[puntos[i].fila][puntos[i].columna] = '*';
             }
         }
+        if(dentroDeLimites(posCuracion.fila, posCuracion.columna)){
+            matriz[posCuracion.fila][posCuracion.columna] = 'C';
+        }
 
+        if(dentroDeLimites(posVelocidad.fila, posVelocidad.columna)){
+            matriz[posVelocidad.fila][posVelocidad.columna] = 'S';
+        }
+
+        if(dentroDeLimites(posCongelar.fila, posCongelar.columna)){
+            matriz[posCongelar.fila][posCongelar.columna] = 'F';
+        }
+        
         if (dentroDeLimites(j.fila, j.columna)) {
             matriz[j.fila][j.columna] = 'J';
         }
