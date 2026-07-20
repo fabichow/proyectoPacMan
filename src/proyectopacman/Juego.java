@@ -21,16 +21,44 @@ public class Juego {
     System.out.println("========================================");
     System.out.println("      CONFIGURACION DEL TABLERO");
     System.out.println("========================================");
-    System.out.print("Ingrese cantidad de filas: ");
-    int filas = lector.nextInt();
-    System.out.print("Ingrese cantidad de columnas: ");
-    int columnas = lector.nextInt();
+    int filas;
+    int columnas;
+    int cantidadMuros;
+    while (true) {
+        System.out.print("Ingrese cantidad de filas: ");
+        filas = lector.nextInt();
+        System.out.print("Ingrese cantidad de columnas: ");
+        columnas = lector.nextInt();
+        if (filas < 3 || columnas < 3) {
+            System.out.println("No hay espacio suficiente para crear el tablero.");
+            System.out.println("Ingrese otros valores.");
+            continue;
+        }
+        int espaciosInternos = (filas - 2) * (columnas - 2);
+        int maxMuros = espaciosInternos - 4;
+        if (maxMuros < 0) {
+            maxMuros = 0;
+        }
+        System.out.print("Ingrese cantidad de muros internos (0 = automático): ");
+        cantidadMuros = lector.nextInt();
+        if (cantidadMuros == 0) {
+            cantidadMuros = (filas * columnas) / 10;
+        }
+        if (cantidadMuros > maxMuros) {
+            System.out.println("No hay espacio suficiente para esa cantidad de muros.");
+            System.out.println("Ingrese otros valores.");
+            continue;
+        }
+        int casillasLibres = espaciosInternos - cantidadMuros;
+        if (casillasLibres < 5) {
+            System.out.println("No hay espacio suficiente para colocar todos los elementos del juego.");
+            System.out.println("Ingrese otros valores.");
+            continue;
+        }
+        break;
+    }
     lector.nextLine(); 
-    if (filas < 10 || columnas < 10) {
-        System.out.println("El tamaño minimo es 10x10.");
-        filas = 10;
-        columnas = 10;}
-    muros = generarMuros(filas,columnas);
+    muros = generarMuros(filas,columnas,cantidadMuros);
     tablero = new Tablero(filas,columnas,muros);
     jugador = new Jugador();
     Posicion posJugador = obtenerPosicionLibre(filas, columnas);
@@ -49,7 +77,6 @@ public class Juego {
     Posicion posTanque = obtenerPosicionLibre(filas, columnas);
     tanque.fila = posTanque.fila;
     tanque.columna = posTanque.columna;
-    tablero = new Tablero(filas,columnas,muros);
     controlEnemigos = new ControlEnemigos(jugador, acechador, velocista, tanque);
     juegoTerminado = false;
     }
@@ -89,6 +116,13 @@ public class Juego {
         }
         actualizarTablero();
         verificarFinJuego();
+        if (juegoTerminado) {
+            System.out.println();
+            System.out.println("========================================");
+            System.out.println("              GAME OVER");
+            System.out.println("========================================");
+            return;
+        }
         mostrarInterfaz();
     }
     public void mostrarInterfaz(){
@@ -118,43 +152,33 @@ public class Juego {
         System.out.println("========================================");
         juegoTerminado = true;
     }
-    public Muro[] generarMuros(int filas, int columnas){
+    public Muro[] generarMuros(int filas, int columnas, int cantidadMurosInternos){
         Random random = new Random();
-        int cantidadMurosInternos = (filas * columnas) / 10;
-        int murosBorde =
-                (filas * 2) +
-                ((columnas - 2) * 2);
-        Muro[] muros =
-                new Muro[murosBorde + cantidadMurosInternos];
+        int murosBorde =(filas * 2) + ((columnas - 2) * 2);
+        Muro[] muros = new Muro[murosBorde + cantidadMurosInternos];
         int indice = 0;
         for(int j = 0; j < columnas; j++){
             muros[indice++] = new Muro(0, j);
-            muros[indice++] =
-                    new Muro(filas - 1, j);
+            muros[indice++] = new Muro(filas - 1, j);
         }
         for(int i = 1; i < filas - 1; i++){
             muros[indice++] = new Muro(i, 0);
-            muros[indice++] =
-                    new Muro(i, columnas - 1);
+            muros[indice++] = new Muro(i, columnas - 1);
         }
         while(indice < muros.length){
-            int fila =
-                    random.nextInt(filas - 2) + 1;
-            int columna =
-                    random.nextInt(columnas - 2) + 1;
+            int fila = random.nextInt(filas - 2) + 1;
+            int columna = random.nextInt(columnas - 2) + 1;
             if((fila == 1 && columna == 1)||(fila == 1 && columna == 2)||(fila == 2 && columna == 1) ||(fila == 2 && columna == 2)){
                 continue;
             }
             boolean repetido = false;
             for(int i = 0; i < indice; i++){
-                if(muros[i].getFila() == fila &&
-                   muros[i].getColumna() == columna){
+                if(muros[i].getFila() == fila && muros[i].getColumna() == columna){
                     repetido = true;
                 }
             }
             if(!repetido){
-                muros[indice++] =
-                        new Muro(fila, columna);
+                muros[indice++] = new Muro(fila, columna);
             }
         }
         return muros;

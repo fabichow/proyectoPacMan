@@ -31,11 +31,14 @@ public class ControlEnemigos{
     if(!jugador.estaVivo()){
         return;
     }
-    velocista.verificarColision(jugador);
+    //velocista.verificarColision(jugador);
+    //if(!jugador.estaVivo()){
+    //    return;
+    //}
+    tanque.verificarColision(jugador);
     if(!jugador.estaVivo()){
         return;
     }
-    tanque.verificarColision(jugador);
     }
     public void eliminarEnemigosInactivos(){
         if(!acechador.estaActivo()){
