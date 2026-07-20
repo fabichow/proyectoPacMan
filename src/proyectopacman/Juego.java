@@ -8,6 +8,12 @@ public class Juego {
     EnemigoAcechador acechador;
     EnemigoVelocista velocista;
     EnemigoTanque tanque;
+    PoderCuracion poderCuracion;
+    PoderVelocidad poderVelocidad;
+    PoderCongelar poderCongelar;
+    Posicion posCuracion;
+    Posicion posVelocidad;
+    Posicion posCongelar;
     Tablero tablero;
     Muro[] muros;
     Punto[] puntos;
@@ -77,6 +83,12 @@ public class Juego {
     Posicion posTanque = obtenerPosicionLibre(filas, columnas);
     tanque.fila = posTanque.fila;
     tanque.columna = posTanque.columna;
+    poderCuracion = new PoderCuracion();
+    poderVelocidad = new PoderVelocidad();
+    poderCongelar = new PoderCongelar();
+    posCuracion = obtenerPosicionLibre(filas, columnas);
+    posVelocidad = obtenerPosicionLibre(filas, columnas);
+    posCongelar = obtenerPosicionLibre(filas, columnas);
     controlEnemigos = new ControlEnemigos(jugador, acechador, velocista, tanque);
     juegoTerminado = false;
     }
@@ -102,17 +114,25 @@ public class Juego {
             System.out.println("Movimiento invalido.");
         }
         verificarPuntos();
+        verificarPoderes();
         verificarVictoria();
         if(juegoTerminado){
             return;
         }
-        controlEnemigos.moverEnemigos();
+        if(!poderCongelar.estaActivo()){
+            controlEnemigos.moverEnemigos();
+        }else{
+            poderCongelar.reducirTurno();
+        }
         controlEnemigos.verificarColisiones();
         if(jugador.fueGolpeado && jugador.estaVivo()){
             Posicion p = obtenerPosicionSegura(tablero.filas, tablero.columnas);
             jugador.fila = p.fila;
             jugador.columna = p.columna;
             jugador.fueGolpeado = false;
+        }
+        if(poderVelocidad.estaActivo()){
+            poderVelocidad.reducirTurno(jugador);
         }
         actualizarTablero();
         verificarFinJuego();
@@ -200,6 +220,23 @@ public class Juego {
         }
     }
     
+    public void verificarPoderes(){
+        if(jugador.fila == posCuracion.fila && jugador.columna == posCuracion.columna){
+            poderCuracion.activar(jugador);
+            posCuracion.fila = -1;
+            posCuracion.columna = -1;
+        }
+        if(jugador.fila == posVelocidad.fila && jugador.columna == posVelocidad.columna){
+            poderVelocidad.activar(jugador);
+            posVelocidad.fila = -1;
+            posVelocidad.columna = -1;
+        }
+        if(jugador.fila == posCongelar.fila && jugador.columna == posCongelar.columna){
+            poderCongelar.activar();
+            posCongelar.fila = -1;
+            posCongelar.columna = -1;
+        }
+    }
     public boolean posicionOcupada(int fila,int columna){
         for(int i = 0; i < muros.length; i++){
             if(muros[i].getFila() == fila && muros[i].getColumna() == columna){
@@ -207,8 +244,7 @@ public class Juego {
             }
         }
         if(jugador != null){
-            if(jugador.fila == fila &&
-               jugador.columna == columna){
+            if(jugador.fila == fila && jugador.columna == columna){
                 return true;
             }
         }
@@ -286,7 +322,7 @@ public class Juego {
     System.out.println(cantidad + " enemigos generados.");
     }
     public void actualizarTablero(){
-        tablero.actualizar(jugador, acechador, velocista, tanque, puntos);
+        tablero.actualizar(jugador, acechador, velocista, tanque, puntos, posCuracion, posVelocidad, posCongelar);
     }
 
 }

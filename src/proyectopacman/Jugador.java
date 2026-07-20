@@ -27,20 +27,24 @@ public class Jugador {
     }
     // Metodos
     public void mover(String direccion, Tablero tablero) {
-        int nuevaFila = fila;
-        int nuevaColumna = columna;
-        if (direccion.equals("arriba")) {
-            nuevaFila --;
-        } else if (direccion.equals("abajo")) {
-            nuevaFila ++;
-        } else if (direccion.equals("derecha")) {
-            nuevaColumna ++;
-        } else if (direccion.equals("izquierda")) {
-            nuevaColumna --;
-        }
-        if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
-        fila = nuevaFila;
-        columna = nuevaColumna;
+        for(int i = 0; i < velocidad; i++){
+            int nuevaFila = fila;
+            int nuevaColumna = columna;
+            if (direccion.equals("arriba")) {
+                nuevaFila--;
+            } else if (direccion.equals("abajo")) {
+                nuevaFila++;
+            } else if (direccion.equals("derecha")) {
+                nuevaColumna++;
+            } else if (direccion.equals("izquierda")) {
+                nuevaColumna--;
+            }
+            if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+                fila = nuevaFila;
+                columna = nuevaColumna;
+            } else {
+                break;
+            }
         }
     }
     public void recogerPunto(Punto p) {
