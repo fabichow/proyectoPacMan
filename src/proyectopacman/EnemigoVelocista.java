@@ -63,7 +63,7 @@ public class EnemigoVelocista {//Este enemigo avanza cada 3 turnos 2 casillas y 
         if (fila == j.fila && columna == j.columna) {
             j.recibirDaño(daño);
             System.out.println("¡El velocista te alcanzó!");
-            return true; 
+            return true;
         }
         return false;
     }
