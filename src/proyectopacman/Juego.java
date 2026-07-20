@@ -89,6 +89,13 @@ public class Juego {
         }
         actualizarTablero();
         verificarFinJuego();
+        if (juegoTerminado) {
+            System.out.println();
+            System.out.println("========================================");
+            System.out.println("              GAME OVER");
+            System.out.println("========================================");
+            return;
+        }
         mostrarInterfaz();
     }
     public void mostrarInterfaz(){
