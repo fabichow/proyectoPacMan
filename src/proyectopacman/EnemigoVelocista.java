@@ -49,7 +49,9 @@ public class EnemigoVelocista {//Este enemigo avanza cada 3 turnos 2 casillas y 
                 columna = nuevaColumna;
             }
 
-            verificarColision(j);
+            if (verificarColision(j)) {
+                break;
+            }
         }
     }
 
@@ -57,11 +59,13 @@ public class EnemigoVelocista {//Este enemigo avanza cada 3 turnos 2 casillas y 
         return activo;
     }
 
-    public void verificarColision(Jugador j) {
+    public boolean verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna) {
             j.recibirDaño(daño);
             System.out.println("¡El velocista te alcanzó!");
+            return true; 
         }
+        return false;
     }
 
     public void mostrarEstado() {
