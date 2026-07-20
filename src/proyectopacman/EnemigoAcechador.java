@@ -30,15 +30,22 @@ public class EnemigoAcechador { //Enemigo que aumenta su velocidad mientras mas 
     //Metodos
     public void mover(Jugador j) {
         actualizarVelocidad(j);
+        Tablero tablero = Tablero.tableroActual;
         for (int i = 0; i < velocidad; i++) {
+            int nuevaFila = fila;
+            int nuevaColumna = columna;
             if (fila < j.fila) {
-                fila++;
+                nuevaFila++;
             } else if (fila > j.fila) {
-                fila--;
+                nuevaFila--;
             } else if (columna < j.columna) {
-                columna++;
+                nuevaColumna++;
             } else if (columna > j.columna) {
-                columna--;
+                nuevaColumna--;
+            }
+            if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+                fila = nuevaFila;
+                columna = nuevaColumna;
             }
         }
     }

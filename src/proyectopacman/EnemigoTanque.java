@@ -29,15 +29,22 @@ public class EnemigoTanque { //Enemigo que se mueve lento pero hace 3 de daño. 
     }
     //Metodos
     public void mover(Jugador j) {
+        Tablero tablero = Tablero.tableroActual;
         for (int i = 0; i < velocidad; i++) {
+            int nuevaFila = fila;
+            int nuevaColumna = columna;
             if (fila < j.fila) {
-                fila++;
+                nuevaFila++;
             } else if (fila > j.fila) {
-                fila--;
+                nuevaFila--;
             } else if (columna < j.columna) {
-                columna++;
+                nuevaColumna++;
             } else if (columna > j.columna) {
-                columna--;
+                nuevaColumna--;
+            }
+            if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+                fila = nuevaFila;
+                columna = nuevaColumna;
             }
         }
     }
