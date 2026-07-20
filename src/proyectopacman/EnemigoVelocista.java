@@ -1,14 +1,13 @@
 package proyectopacman;
 
-public class EnemigoVelocista {
+public class EnemigoVelocista {//Este enemigo avanza cada 3 turnos 2 casillas y los demas enmigos lo puden traspasar .Ronald Gutierrez
 
     int fila;
     int columna;
     int daño;
     boolean activo;
     String tipo;
-
-    int contadorTurnos; 
+    int contadorTurnos;
 
     public EnemigoVelocista() {
         fila = 6;
@@ -16,40 +15,42 @@ public class EnemigoVelocista {
         daño = 1;
         activo = true;
         tipo = "velocista";
-        contadorTurnos = 0; 
+        contadorTurnos = 0;
     }
 
     public void mover(Jugador j) {
 
-        if (!activo) return;
+        if (!activo) {
+            return;
+        }
 
         contadorTurnos++;
-
+        
         if (contadorTurnos % 3 != 0) {
             return;
         }
 
         Tablero tablero = Tablero.tableroActual;
+        boolean yaAtaco = false;
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2 && !yaAtaco; i++) {
 
-            int nuevaFila = fila;
-            int nuevaColumna = columna;
-
-            if (fila < j.fila) { nuevaFila++; }
-            if (fila > j.fila) { nuevaFila--; }
-            if (columna < j.columna) { nuevaColumna++; }
-            if (columna > j.columna) { nuevaColumna--; }
-
-            if (tablero == null || tablero.esMovimientoValido(nuevaFila, columna)) {
-                fila = nuevaFila;
+            if (fila < j.fila && tablero.esMovimientoValido(fila + 1, columna)) {
+                fila++;
+            } else if (fila > j.fila && tablero.esMovimientoValido(fila - 1, columna)) {
+                fila--;
             }
 
-            if (tablero == null || tablero.esMovimientoValido(fila, nuevaColumna)) {
-                columna = nuevaColumna;
+            if (columna < j.columna && tablero.esMovimientoValido(fila, columna + 1)) {
+                columna++;
+            } else if (columna > j.columna && tablero.esMovimientoValido(fila, columna - 1)) {
+                columna--;
             }
-            if (verificarColision(j)) {
-                break;
+
+            if (fila == j.fila && columna == j.columna) {
+                j.recibirDaño(1); 
+                System.out.println("¡El velocista te alcanzó!");
+                yaAtaco = true;
             }
         }
     }
@@ -60,7 +61,7 @@ public class EnemigoVelocista {
 
     public boolean verificarColision(Jugador j) {
         if (fila == j.fila && columna == j.columna) {
-            j.recibirDaño(daño);
+            j.recibirDaño(1); 
             System.out.println("¡El velocista te alcanzó!");
             return true;
         }
