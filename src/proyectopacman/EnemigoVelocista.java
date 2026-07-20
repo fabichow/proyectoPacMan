@@ -62,7 +62,7 @@ public class EnemigoVelocista {
         if (fila == j.fila && columna == j.columna) {
             j.recibirDaño(daño);
             System.out.println("¡El velocista te alcanzó!");
-            return true; // 👈 indica que ya golpeó
+            return true;
         }
         return false;
     }
