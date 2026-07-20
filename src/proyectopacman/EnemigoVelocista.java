@@ -58,14 +58,6 @@ public class EnemigoVelocista {
         return activo;
     }
 
-    public boolean verificarColision(Jugador j) {
-        if (fila == j.fila && columna == j.columna) {
-            j.recibirDaño(daño);
-            System.out.println("¡El velocista te alcanzó!");
-            return true; // 👈 indica que ya golpeó
-        }
-        return false;
-    }
 
     public void mostrarEstado() {
         System.out.println("========Velocista=========");
